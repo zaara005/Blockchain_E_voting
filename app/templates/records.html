@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.record-box { width: 85%; margin: 40px auto; background: rgba(20,20,20,0.55); padding: 22px; border-radius: 12px; border: 1px solid rgba(140,60,255,0.18); }
+.record-box table { width: 100%; border-collapse: collapse; margin-top: 18px; }
+.record-box th, .record-box td { padding: 10px 12px; border: 1px solid rgba(255,255,255,0.06); text-align: left; }
+.record-box th { background: rgba(120,50,200,0.12); font-weight: 600; }
+.record-box tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+.record-box .monospace { font-family: monospace; font-size: 13px; word-break: break-all; }
+</style>
+
+<div class="record-box">
+    <h2 style="color:#dda5ff; text-shadow:0 0 12px #c56cff;">📜 Voting Records (Admin)</h2>
+
+    <table>
+        <tr>
+            <th>Voter ID</th>
+            <th>Timestamp</th>
+            <th>Block #</th>
+        </tr>
+
+        {% for p in posts %}
+        <tr>
+            <td>{{ p.voter_id }}</td>
+            <td>{{ readable_time(p.timestamp) }}</td>
+            <td>{{ p.block_index }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

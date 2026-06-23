@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.single-card {
+    width: 450px;
+    margin: 60px auto;
+    background: rgba(20, 20, 20, 0.55);
+    backdrop-filter: blur(10px);
+    border-radius: 22px;
+    padding: 30px;
+    border: 1px solid rgba(170, 70, 255, 0.25);
+    box-shadow: 0 0 25px rgba(160, 70, 255, 0.25);
+    animation: fadeIn 0.6s ease-out;
+    text-align: center;
+}
+@keyframes fadeIn { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
+
+label { color: #d8b9ff; font-size: 15px; font-weight: 500; }
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid rgba(120, 120, 255, 0.25);
+    border-radius: 10px;
+    color: #9dfbff;
+    font-size: 15px;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    box-shadow: 0 0 12px rgba(65, 65, 255, 0.35);
+}
+
+button, input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #8a2cff, #d66bff);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 0 18px rgba(180, 60, 255, 0.5);
+    transition: 0.3s ease;
+}
+button:hover, input[type="submit"]:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(200, 100, 255, 0.7); }
+</style>
+
+<div class="single-card">
+    <h2 style="color:#cfa8ff;">🗳 Cast Your Vote</h2>
+    <br>
+
+    <form action="/submit" method="post">
+        <label>Select Political Party</label>
+        <select name="party" required>
+            <option value="">Choose</option>
+            {% for p in political_parties %}
+            <option value="{{ p }}">{{ p }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Voter ID input kept for UX, but server ignores this field and uses session's voter_id -->
+        <label>Enter Voter ID</label>
+        <input type="text" name="voter_id" placeholder="VOID001" value="{{ session.get('voter_id', '') }}" required readonly>
+
+        <input type="submit" value="Vote">
+    </form>
+
+    <a href="{{node_address}}/mine" target="_blank">
+        <button type="button">⛏ Mine</button>
+    </a>
+
+    <a href="/">
+        <button type="button">🔄 Resync</button>
+    </a>
+</div>
+
+{% endblock %}
